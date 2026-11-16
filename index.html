@@ -52,6 +52,8 @@
   details { margin:8px 0; }
   summary { cursor:pointer; font-size:13px; color:var(--brand2); }
 </style>
+<script src="char_ipa.js"></script>
+<script src="mespeak/mespeak.js"></script>
 </head>
 <body>
 <header>
@@ -62,6 +64,7 @@
     <button id="tabA" onclick="switchTab('A')">有声语音</button>
     <button id="tabB" onclick="switchTab('B')">B站资源</button>
     <button id="tabX" onclick="switchTab('X')">小红书</button>
+    <button id="tabS" onclick="switchTab('S')">在线合成</button>
   </div>
 </header>
 <div class="wrap">
@@ -92,6 +95,17 @@
     <div class="bgrid" id="xtopic"></div>
     <div class="agroup" style="margin-top:16px">「苏州话」相关视频（33 条）</div>
     <div class="bgrid" id="xgrid"></div>
+  </div>
+
+  <div id="panelS" style="display:none">
+    <p class="hint">在线苏州话合成：输入苏州话，前端逐字转 IPA 后用 meSpeak 即时合成。<b>机械电子音，声调未实现，仅供音值演示</b>。</p>
+    <textarea id="synText" rows="3" style="width:100%;max-width:660px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;box-sizing:border-box;font-family:inherit;">倷好，我是苏州小娘鱼，白相伐？</textarea>
+    <div style="margin:8px 0;">
+      <button class="go" onclick="synthSz()">合成播放</button>
+      <button class="go" onclick="synthDownload()">下载 WAV</button>
+      <button class="go" onclick="meSpeak && meSpeak.stop()">停止</button>
+    </div>
+    <div class="hint" id="synInfo"></div>
   </div>
 
   <footer>
@@ -126,10 +140,12 @@ function switchTab(t){
   document.getElementById('panelA').style.display = t==='A' ? 'block':'none';
   document.getElementById('panelB').style.display = t==='B' ? 'block':'none';
   document.getElementById('panelX').style.display = t==='X' ? 'block':'none';
+  document.getElementById('panelS').style.display = t==='S' ? 'block':'none';
   document.getElementById('tabT').className = t==='T' ? 'active':'';
   document.getElementById('tabA').className = t==='A' ? 'active':'';
   document.getElementById('tabB').className = t==='B' ? 'active':'';
   document.getElementById('tabX').className = t==='X' ? 'active':'';
+  document.getElementById('tabS').className = t==='S' ? 'active':'';
 }
 function doSearch(){
   var q = document.getElementById('q').value.trim();
@@ -194,6 +210,51 @@ function renderX(){
   document.getElementById('xgrid').innerHTML = XLIST.map(function(x){
     return '<a class="bcard" href="'+esc(x.url)+'" target="_blank"><div class="ph">苏</div><div class="binfo"><div class="bt">'+esc(x.title)+'</div><div class="bm">'+esc(x.author)+'</div></div></a>';
   }).join('');
+}
+var SZ_INI = {'p':'p','pʰ':'ph','b':'b','m':'m','f':'f','v':'v','t':'t','tʰ':'th','d':'d','n':'n','l':'l','ʦ':'ts','ʦʰ':'tsh','s':'s','z':'z','ʨ':'tC','ʨʰ':'tCh','ʥ':'dZ','ȵ':'n','ɕ':'C','ʑ':'z','k':'k','kʰ':'kh','ɡ':'g','ŋ':'N','h':'h','ɦ':'h'};
+var SZ_FIN = {'ɿ':'i`','ʮ':'i`','i':'i','u':'u','y':'y','o':'o','io':'io','ɑ':'a','iɑ':'ia','uɑ':'ua','ᴇ':'E','uᴇ':'uE','ɪ':'I','æ':'a','iæ':'ia','øʏ':'2Y','ʏ':'Y','ɵ':'V','iɵ':'iV','uɵ':'uV','ə':'@','əl':'@l','oʊ':'oU','ən':'@n','uən':'u@n','ɪɲ':'In','ʏɲ':'Yn','ã':'a','iã':'ia','uã':'ua','ɑ̃':'a','iɑ̃':'ia','uɑ̃':'ua','oŋ':'oN','ioŋ':'ioN','aʔ':'a?','iaʔ':'ia?','uaʔ':'ua?','ɑʔ':'a?','iɑʔ':'ia?','oʔ':'o?','ioʔ':'io?','əʔ':'@?','iəʔ':'i@?','uəʔ':'u@?','yəʔ':'y@?','ŋ̩':'N:','m̩':'m:'};
+function szStrip(ipa){ return (ipa||'').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, ''); }
+function szPhonemes(ipa){
+  ipa = szStrip(ipa);
+  var ini='', fin=ipa;
+  var keys = Object.keys(SZ_INI).sort(function(a,b){return b.length-a.length;});
+  for(var i=0;i<keys.length;i++){ if(ipa.indexOf(keys[i])===0){ ini=SZ_INI[keys[i]]; fin=ipa.slice(keys[i].length); break; } }
+  var f = (SZ_FIN[fin] !== undefined) ? SZ_FIN[fin] : fin.replace(/ʔ/g,'?');
+  return (ini ? ini+' ' : '') + f;
+}
+function szToPhonemes(text){
+  var out=[];
+  for(var i=0;i<text.length;i++){
+    var ipa = CHAR_IPA[text[i]];
+    if(!ipa){ continue; }
+    out.push(szPhonemes(ipa));
+  }
+  return out.join(' ');
+}
+var msReady=false;
+function ensureMeSpeak(cb){
+  if(msReady){ cb(); return; }
+  meSpeak.loadVoice('zh', function(success, id){
+    if(success){ meSpeak.setDefaultVoice('zh'); msReady=true; cb(); }
+    else { document.getElementById('synInfo').textContent = '音色加载失败：' + id; }
+  });
+}
+function synthSz(){
+  var t = document.getElementById('synText').value;
+  if(!t){ return; }
+  var ph = szToPhonemes(t);
+  document.getElementById('synInfo').textContent = '音素：' + ph;
+  ensureMeSpeak(function(){ meSpeak.speak('[['+ph+']]', {speed:150, pitch:45, variant:'f2'}); });
+}
+function synthDownload(){
+  var t = document.getElementById('synText').value;
+  if(!t){ return; }
+  var ph = szToPhonemes(t);
+  ensureMeSpeak(function(){
+    meSpeak.speak('[['+ph+']]', {speed:150, pitch:45, variant:'f2', rawdata:'data-url'}, function(ok, id, stream){
+      if(ok && stream){ var a=document.createElement('a'); a.href=stream; a.download='苏州话合成.wav'; document.body.appendChild(a); a.click(); a.remove(); }
+    });
+  });
 }
 cards();
 renderAudio();

@@ -231,6 +231,28 @@ function szToPhonemes(text){
   }
   return out.join(' ');
 }
+var SZ_TONE = {'44':70,'23':45,'51':72,'31':40,'412':55,'5':65,'3':32};
+var SUP_MAP = {'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'};
+function szTone(ipa){
+  var m = (ipa||'').match(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+$/);
+  if(!m){ return ''; }
+  var d = '';
+  for(var i=0;i<m[0].length;i++){ d += SUP_MAP[m[0][i]] || ''; }
+  return d;
+}
+function szSyllables(text){
+  var out=[];
+  for(var i=0;i<text.length;i++){
+    var ipa = CHAR_IPA[text[i]];
+    if(!ipa){ continue; }
+    var ph = szPhonemes(ipa);
+    if(!ph){ continue; }
+    var t = szTone(ipa);
+    var pitch = (SZ_TONE[t] !== undefined) ? SZ_TONE[t] : 50;
+    out.push({text:'[['+ph+']]', pitch:pitch});
+  }
+  return out;
+}
 var msReady=false;
 function ensureMeSpeak(cb){
   if(msReady){ cb(); return; }
@@ -243,17 +265,20 @@ function synthSz(){
   var t = document.getElementById('synText').value;
   if(!t){ return; }
   var ph = szToPhonemes(t);
-  document.getElementById('synInfo').textContent = '音素：' + ph;
-  ensureMeSpeak(function(){ meSpeak.speak('[['+ph+']]', {speed:150, pitch:45, variant:'f2'}); });
+  var parts = szSyllables(t);
+  document.getElementById('synInfo').textContent = '音素：' + ph + '（已按调值设音高近似；连续变调未实现）';
+  ensureMeSpeak(function(){ meSpeak.speakMultipart(parts, {speed:140, variant:'f2'}); });
 }
 function synthDownload(){
   var t = document.getElementById('synText').value;
   if(!t){ return; }
-  var ph = szToPhonemes(t);
+  var parts = szSyllables(t);
   ensureMeSpeak(function(){
-    meSpeak.speak('[['+ph+']]', {speed:150, pitch:45, variant:'f2', rawdata:'data-url'}, function(ok, id, stream){
+    var done = function(ok, id, stream){
       if(ok && stream){ var a=document.createElement('a'); a.href=stream; a.download='苏州话合成.wav'; document.body.appendChild(a); a.click(); a.remove(); }
-    });
+    };
+    var ret = meSpeak.speakMultipart(parts, {speed:140, variant:'f2', rawdata:'data-url'}, done);
+    if(ret && typeof ret === 'string'){ done(true, 0, ret); }
   });
 }
 cards();

@@ -42,6 +42,9 @@
   .bcard .bt { font-size:13px; line-height:1.35; color:#234; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   .bcard .bm { font-size:11px; color:#999; margin-top:3px; }
   .hit .full { margin-top:6px; padding:8px 10px; background:#f6f8f7; border-radius:6px; font-size:14px; line-height:1.7; color:#234; }
+  .hit .gloss { margin:4px 0; padding:6px 10px; background:#f0f7f4; border-left:3px solid #3f6a5a; border-radius:4px; font-size:13.5px; color:#234; }
+  .dwmark { color:#8a3a1a; font-weight:600; cursor:help; border-bottom:1px dashed #c86; }
+  .dspk { cursor:pointer; font-size:15px; margin-right:8px; }
   .ditem { background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin-bottom:8px; }
   .ditem .dw { font-size:17px; font-weight:700; color:#234; margin-right:10px; }
   .ditem .dipa { font-size:13px; color:#3f6a5a; font-family:"Gentium Plus","Charis SIL","Times New Roman",serif; margin-right:10px; }
@@ -183,7 +186,9 @@ function doSearch(){
   cnt.textContent = '共命中 ' + hits.length + ' 处（最多显示 80 条）';
   box.innerHTML = hits.map(function(h){
     var link = h.url ? ' · <a href="'+esc(h.url)+'" target="_blank">原文全文 ↗</a>' : '';
-    return '<div class="hit"><div class="kwic">'+h.html+'</div><div class="src">出处：'+esc(h.src)+link+' · <a onclick="var f=this.parentNode.nextSibling;f.style.display=(f.style.display===\'none\'?\'block\':\'none\')" style="cursor:pointer;color:#3f6a5a;">展开本段</a></div><div class="full" style="display:none">'+esc(h.full)+'</div></div>';
+    var d = dictFind(q);
+    var gloss = d ? '<div class="gloss"><b>'+esc(q)+'</b>（苏州话）＝ '+esc(d.def)+'　<span class="dipa">'+esc(d.ipa)+'</span> <span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\')">🔊</span></div>' : '';
+    return '<div class="hit"><div class="kwic">'+h.html+'</div>'+gloss+'<div class="src">出处：'+esc(h.src)+link+' · <a onclick="var f=this.parentNode.nextSibling;f.style.display=(f.style.display===\'none\'?\'block\':\'none\')" style="cursor:pointer;color:#3f6a5a;">展开本段（苏州话词已标普通话）</a></div><div class="full" style="display:none">'+markDictWords(h.full)+'</div></div>';
   }).join('') || '<div class="hit"><div class="kwic">未命中，换一个词试试。</div></div>';
 }
 function tryWord(w){ document.getElementById('q').value = w; doSearch(); }
@@ -321,10 +326,40 @@ function renderDICT(){
     return true;
   });
   document.getElementById('dictList').innerHTML = list.map(function(d){
-    return '<div class="ditem"><span class="dw">'+esc(d.w)+'</span><span class="dipa">'+esc(d.ipa)+'</span><span class="dcat">'+esc(d.cat)+'</span><div class="ddef">'+esc(d.def)+'</div></div>';
+    return '<div class="ditem"><span class="dw">'+esc(d.w)+'</span><span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\')">🔊</span><span class="dipa">'+esc(d.ipa)+'</span><span class="dcat">'+esc(d.cat)+'</span><div class="ddef">'+esc(d.def)+'</div></div>';
   }).join('') || '<div class="hint">未找到，换个词试试。</div>';
 }
 function filterDICT(){ dcatSel=''; renderDICT(); }
+function dictFind(w){
+  for(var i=0;i<DICT.length;i++){ if(DICT[i].w === w) return DICT[i]; }
+  return null;
+}
+function ipaToParts(ipa){
+  var syls = (ipa||'').split(/\s+/);
+  var parts = [];
+  syls.forEach(function(sy){
+    var ph = szPhonemes(sy);
+    if(!ph) return;
+    var t = szTone(sy);
+    var pitch = (SZ_TONE[t] !== undefined) ? SZ_TONE[t] : 50;
+    parts.push({text:'[['+ph+']]', pitch:pitch});
+  });
+  return parts;
+}
+function speakWord(ipa){
+  var parts = ipaToParts(ipa);
+  if(!parts.length) return;
+  ensureMeSpeak(function(){ meSpeak.speakMultipart(parts, {speed:140, variant:'f2'}); });
+}
+function markDictWords(text){
+  var ws = DICT.map(function(d){return d.w;}).filter(function(w){return w.length>0;}).sort(function(a,b){return b.length-a.length;});
+  var re = new RegExp(ws.join('|'), 'g');
+  return esc(text).replace(re, function(m){
+    var d = dictFind(m);
+    var tip = d ? (m+'：'+d.def+' ['+d.ipa+']') : m;
+    return '<span class="dwmark" title="'+esc(tip)+'">'+m+'</span>';
+  });
+}
 cards();
 renderAudio();
 renderB();

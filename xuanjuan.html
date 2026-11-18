@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>同里宝卷 · 宣卷专区｜苏州方言语料库</title>
+<style>
+:root{--paper:#f7f2e7;--ink:#2b2b2b;--accent:#8c2f2f;--line:#c9bda4;--tag1:#8c2f2f;--tag2:#b0723b;--tag3:#5f6f52;--tag4:#7a7a7a;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Noto Serif SC","Source Han Serif SC","SimSun",serif;line-height:1.7;padding:24px 16px 64px}
+.wrap{max-width:960px;margin:0 auto}
+header{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:18px;margin-bottom:22px}
+h1{font-size:26px;letter-spacing:4px;color:var(--accent)}
+.sub{font-size:13px;color:#666;margin-top:6px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0 26px}
+.stats div{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 16px;text-align:center;min-width:110px}
+.stats b{display:block;font-size:20px;color:var(--accent)}
+.stats span{font-size:12px;color:#666}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 0 18px}
+.filters button{border:1px solid var(--line);background:#fff;padding:4px 14px;border-radius:14px;cursor:pointer;font-family:inherit;font-size:13px}
+.filters button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+h2{font-size:19px;color:var(--accent);border-left:5px solid var(--accent);padding-left:10px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+th{background:#efe6d3}
+td.n{width:34px;text-align:center}
+details{background:#fff;border:1px solid var(--line);border-radius:6px;margin:6px 0;padding:8px 14px;font-size:13.5px}
+summary{cursor:pointer;font-weight:bold;color:var(--accent)}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:8px;color:#fff;margin-left:6px;vertical-align:middle}
+.t1{background:var(--tag1)}.t2{background:var(--tag2)}.t3{background:var(--tag3)}.t4{background:var(--tag4)}
+.audio-box{background:#fff;border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:8px 0}
+.audio-box p{font-size:12.5px;color:#555;margin-top:4px}
+.note{background:#fff8e6;border:1px dashed var(--line);border-radius:6px;padding:12px 16px;font-size:13px;margin:20px 0}
+footer{text-align:center;font-size:12px;color:#888;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+a{color:var(--accent)}
+@media(max-width:640px){table{font-size:12px}th,td{padding:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>同里宝卷 · 宣卷专区</h1>
+<div class="sub">苏州方言语料库 · 文艺语体（说唱）｜宝卷续音实践团 · 南通大学文学院</div>
+</header>
+
+<div class="stats">
+<div><b>50</b><span>篇目全编</span></div>
+<div><b>16.8 万</b><span>字卷本文本</span></div>
+<div><b>2</b><span>篇全本精校</span></div>
+<div><b>4</b><span>段宣卷原声</span></div>
+</div>
+
+<div class="filters">
+<button class="on" data-f="all">全部</button>
+<button data-f="quanben">全本精校</button>
+<button data-f="hedui">影像已核</button>
+<button data-f="lumu">著录立目</button>
+<button data-f="daihe">待核</button>
+</div>
+
+<div id="list"></div>
+
+<h2>宣卷原声（4 段 · 逐条标出处）</h2>
+<div class="audio-box">
+<p><b>《国家级非物质文化遗产——同里宣卷》</b>（同里景区官方，约 198 秒）</p>
+<audio controls preload="none" src="audio/xuanjuan/BV1gK4y1K73q_同里宣卷.mp3"></audio>
+<p>出处：B站 BV1gK4y1K73q，同里景区官方账号；内部研究用。</p>
+</div>
+<div class="audio-box">
+<p><b>《同里宣卷——〈同心抗疫保平安〉》</b>（同里景区官方，约 296 秒）</p>
+<audio controls preload="none" src="audio/xuanjuan/BV1jA4y1X7Jz_同里宣卷.mp3"></audio>
+<p>出处：B站 BV1jA4y1X7Jz，同里景区官方账号；内部研究用。</p>
+</div>
+<div class="audio-box">
+<p><b>同里宣卷纪录片（音轨）</b></p>
+<audio controls preload="none" src="audio/xuanjuan/同里宣卷纪录片.mp3"></audio>
+<p>出处：公开纪录片音轨，逐条标出处；内部研究用。</p>
+</div>
+<div class="audio-box">
+<p><b>宣卷直播录屏（音轨）</b></p>
+<audio controls preload="none" src="audio/xuanjuan/猫耳直播录屏_同里宣卷.mp3"></audio>
+<p>出处：猫耳FM 直播录屏；内部研究用。</p>
+</div>
+
+<h2>AI 苏州话配音示范</h2>
+<div class="audio-box">
+<p><b>苏州话数字人配音（GPT-SoVITS 克隆合成）</b></p>
+<audio controls preload="none" src="audio/digital_human/苏州话数字人配音.mp3"></audio>
+<p>训练数据：MagicData 吴语 TTS 45 句（CC BY-NC-ND 4.0，研究用）；用于即梦数字人配音。</p>
+</div>
+
+<h2>卷本构成与整理说明</h2>
+<div class="note">
+<p><b>卷本三类文字</b>：①仪式文字（卷首「先排香案」「开卷举赞」炉香赞/请佛/八仙赞/斋主寿赞，卷末「送佛」「回向」）；②说白（吴方言散文道白，「却说」「且说」「表」领起）；③唱词（七字句、十字句为主，押韵齐整）。</p>
+<p><b>资料来源四条途径</b>：①公开数字化原始卷本（早稻田大学风陵文库、金泽大学、哈佛燕京图书馆藏本影印）；②学术文献（车锡伦、王定勇、郑振铎等）；③官方网站（中国非物质文化遗产网〔宝卷·吴地宝卷〕、苏州非遗信息网等）；④著录工具（《中国宝卷总目》、CRTA、汉籍资源中心）。</p>
+<p><b>整理原则</b>：引文忠于原卷、繁体照录；说白与唱词依原卷段落；每篇注明来源链接；检索未获全文者如实标注「待馆藏查阅」，不虚构、不以戏曲弹词情节冒充卷本原文。</p>
+<p><b>底本说明</b>：《中国·同里宣卷集》（凤凰出版社 2010 年版）上卷 25 部「口头演唱记录本」、下卷 25 部「手抄校点本」；清单篇目与成书目录卷次不尽相符，正式引用以原书目录为准。</p>
+</div>
+
+<footer>
+<a href="index.html">← 返回苏州方言语料库首页</a><br>
+文本：同里宝卷卷本标准化文本资料库（篇目1-50全编）· 宝卷续音实践团 2026-10-03<br>
+出处铁律：每条索引行与每段音频均标注来源；公开发布前对第三方内容逐条补创作者授权。
+</footer>
+</div>
+
+<script>
+var DATA=[
+{no:1,name:"珍珠塔宝卷",juan:"上卷·口头演唱记录本",st:"quanben",genre:"世情·励志团圆",intro:"苏州弹词《珍珠塔》移植：方卿落魄投亲遭姑母羞辱，表姐陈翠娥暗赠珍珠塔，后中状元乔装道情讥姑，母子夫妇大团圆。全本精校：西湖慧空经房刻本 64 叶＋金泽大学藏绘图本互校，含卷首仪式文字与八仙赞全文。"},
+{no:2,name:"洛阳桥宝卷",juan:"上卷·口头演唱记录本",st:"quanben",genre:"神道·造桥",intro:"蔡状元奉旨造洛阳桥，观音助化、龙王示潮退之日（卷末含受生债库房登记文）。惜阴书局石印小卷 11 叶八千余字全本已校录。"},
+{no:3,name:"描金凤宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情·公案",intro:"苏州弹词《描金凤》（徐惠兰故事系）。状态待补。"},
+{no:4,name:"白兔记宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情·苦尽甘来",intro:"南戏《白兔记》：刘知远投军，李三娘磨房产子，井台相会团圆。状态待补。"},
+{no:5,name:"玉佩记宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情·才子佳人",intro:"玉佩定情类公案弹词（情节待核）。状态待补。"},
+{no:6,name:"黄金印宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"励志·封相",intro:"苏秦刺股、六国封相故事系。卷本全文待馆藏核验；读秀补正（惜阴书局本著录实锤）。"},
+{no:7,name:"合同记宝卷",juan:"上卷·口头演唱记录本",st:"hedui",genre:"公案·世情",intro:"弹词《合同记》系（情节待核）。已获哈佛燕京藏《新编合同记宝卷》卷下影像并核对（部分）。"},
+{no:8,name:"双珠凤宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"世情·才子佳人",intro:"弹词《双珠凤》（文必正故事系）。哈佛燕京藏本著录明确，据著录立目。"},
+{no:9,name:"何文秀宝卷",juan:"上卷·口头演唱记录本",st:"hedui",genre:"公案·雪冤",intro:"明传奇《何文秀》：桑园访妻、洗雪沉冤。哈佛燕京藏《繪圖何文秀寶卷》上、下集影像已核对。"},
+{no:10,name:"玉蜻蜓宝卷",juan:"上卷·口头演唱记录本",st:"hedui",genre:"世情·庵堂认母",intro:"弹词《玉蜻蜓》：申贵升庵堂情缘、徐元宰认母。早稻田藏本 PDF 22 叶完整，卷首已核对、开卷文字已辑录。"},
+{no:11,name:"麒麟豹宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"世情·续书",intro:"弹词《珍珠塔》续书（方卿之子方俊故事系）。CRTA 著录明确。"},
+{no:12,name:"龙图宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"公案·包公",intro:"包拯（龙图阁直学士）断案故事系。无锡卷抄本著录。"},
+{no:13,name:"卖水宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情",intro:"戏曲《卖水》（李彦贵故事系）。全文待核，据戏曲源流立目。"},
+{no:14,name:"沉香宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"神道·孝道",intro:"沉香劈山救母故事系。宝卷本著录有据。"},
+{no:15,name:"白鹤图宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"世情·公案",intro:"弹词《白鹤图》系。胜浦宣卷集收录，刊本著录有据。"},
+{no:16,name:"百花台宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"世情",intro:"弹词《百花台》系。文益书局石印本著录明确。"},
+{no:17,name:"碧玉簪宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"世情·婚姻",intro:"戏曲《碧玉簪》（李秀英、王玉林故事系）。多版本著录明确。"},
+{no:18,name:"大莲船宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"待核",intro:"仅获线索，全文待核。"},
+{no:19,name:"大红袍宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"公案·忠臣",intro:"海瑞（大红袍）故事系。全文待核，据弹词源流立目。"},
+{no:20,name:"陈世美宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"公案·铡美",intro:"秦香莲、铡美案故事系。宝卷本著录有据。"},
+{no:21,name:"独占花魁宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情",intro:"《卖油郎独占花魁》故事系。全文待核，据小说戏曲源流立目。"},
+{no:22,name:"八仙宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"神道·祝寿",intro:"八仙故事（宣卷开卷常套「八仙赞」之源）。清代宝卷文献著录有据。"},
+{no:23,name:"八宝山宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"世情·弹词",intro:"弹词《八宝山》系。全文待核。"},
+{no:24,name:"白龙宝卷",juan:"上卷·口头演唱记录本",st:"daihe",genre:"神道（待核）",intro:"地方宣卷资料立目，待核。"},
+{no:25,name:"目莲救母宝卷",juan:"上卷·口头演唱记录本",st:"lumu",genre:"神道·孝道",intro:"目连救母（目连戏）故事系。多版本著录明确。"},
+{no:26,name:"妙英宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"劝善",intro:"宝卷名篇（善才劝化系，情节待核）。多版本著录明确。"},
+{no:27,name:"香山宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"神道·观音得道",intro:"妙善公主（观音）香山得道故事系。多版本著录明确。"},
+{no:28,name:"观音宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"神道",intro:"观音信仰劝善故事系。版本著录有据。"},
+{no:29,name:"开关宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"仪式类（待核）",intro:"据官方分类立目，全文待核。"},
+{no:30,name:"庵堂宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"世情",intro:"庵堂相会故事系。无锡卷抄本著录明确。"},
+{no:31,name:"八宝鸾钗宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"世情·公案",intro:"鸾钗定情公案弹词（待核）。文益书局石印本著录明确。"},
+{no:32,name:"百岁图宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"祝寿·喜庆（待核）",intro:"待核。"},
+{no:33,name:"卜素玉宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"待核",intro:"待核。"},
+{no:34,name:"财神宝卷",juan:"下卷·手抄校点本",st:"hedui",genre:"神道·财神",intro:"财神信仰劝善故事系。早稻田藏写本 27 叶已下载核对（卷首卷末），题署待核。"},
+{no:35,name:"蚕花宝卷（蚕花娘娘）",juan:"下卷·手抄校点本",st:"lumu",genre:"神道·蚕神",intro:"蚕花娘娘（马头娘系）蚕神信仰。余杭宣卷卷目著录明确。"},
+{no:36,name:"蚕花宝卷（三姑蚕娘）",juan:"下卷·手抄校点本",st:"daihe",genre:"神道·蚕神",intro:"三姑蚕娘蚕神信仰系。全文待核，据蚕神信仰源流立目。"},
+{no:37,name:"茶碗记宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"公案",intro:"戏曲《茶碗记》系（待核）。全文待核。"},
+{no:38,name:"长生宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"仪式·祈寿（待核）",intro:"待核。"},
+{no:39,name:"雌雄盏宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"世情·公案",intro:"郑振铎著录明确，情节待核。"},
+{no:40,name:"刺心宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"劝善·惊世",intro:"常州刻本著录明确，情节待核。"},
+{no:41,name:"打刀劝妻宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"世情·劝和",intro:"胜浦宣卷集有《打刀宝卷》，疑同源。"},
+{no:42,name:"代皇进瓜宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"神道·报应",intro:"刘全进瓜故事系（《西游记》段同源）。同源卷本著录明确。"},
+{no:43,name:"戴黑心宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"劝善",intro:"待核。"},
+{no:44,name:"雕龙宝卷",juan:"下卷·手抄校点本",st:"hedui",genre:"世情",intro:"识典古籍有全文，胜浦集收录；部分全文已核对。"},
+{no:45,name:"窦娥宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"公案·冤狱",intro:"《窦娥冤》故事系。多版本著录明确。"},
+{no:46,name:"节孝宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"节孝·劝善",intro:"据同类卷目线索立目，待核。"},
+{no:47,name:"刘香宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"劝善·女性修行",intro:"刘香女宝卷（宝卷劝善名篇）。多版本著录明确。"},
+{no:48,name:"潘公宝卷",juan:"下卷·手抄校点本",st:"hedui",genre:"人物·地方（待核）",intro:"版本系统著录明确，ctext 有全文；序与开卷文字已核对。"},
+{no:49,name:"十美图宝卷",juan:"下卷·手抄校点本",st:"daihe",genre:"世情·弹词",intro:"弹词《十美图》系。全文待核。"},
+{no:50,name:"雪梅宝卷",juan:"下卷·手抄校点本",st:"lumu",genre:"节孝",intro:"秦雪梅（雪梅吊孝）系（待核）。文益书局石印本著录明确。"}
+];
+var TAGMAP={quanben:'<span class="tag t1">全本精校</span>',hedui:'<span class="tag t2">影像已核</span>',lumu:'<span class="tag t3">著录立目</span>',daihe:'<span class="tag t4">待核</span>'};
+function render(f){
+  var html='';var cnt=0;
+  DATA.forEach(function(d){
+    if(f!=='all'&&d.st!==f)return;cnt++;
+    html+='<details><summary>'+d.no+'．'+d.name+TAGMAP[d.st]+'　<span style="color:#888;font-weight:normal;font-size:12px">'+d.juan+' · '+d.genre+'</span></summary><p>'+d.intro+'</p></details>';
+  });
+  if(!cnt)html='<div class="note">该筛选下暂无篇目。</div>';
+  document.getElementById('list').innerHTML=html;
+}
+document.querySelectorAll('.filters button').forEach(function(b){
+  b.onclick=function(){document.querySelectorAll('.filters button').forEach(function(x){x.className=''});b.className='on';render(b.dataset.f)};
+});
+render('all');
+</script>
+</body>
+</html>

@@ -348,7 +348,7 @@ function ipaToParts(ipa){
   });
   return parts;
 }
-var AUDIO_MAP={'结棍':'audio/fayinku/词条_结棍_教学念白.mp3'};
+var AUDIO_MAP={'结棍':'audio/fayinku/词条_结棍_教学念白.mp3','我':'audio/fayinku/ci_wo_我.mp3'};
 function speakWord(ipa, w){
   if(w && AUDIO_MAP[w]){ new Audio(AUDIO_MAP[w]).play(); return; }
   var parts = ipaToParts(ipa);

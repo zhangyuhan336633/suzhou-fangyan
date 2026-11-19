@@ -189,7 +189,7 @@ function doSearch(){
   box.innerHTML = hits.map(function(h){
     var link = h.url ? ' · <a href="'+esc(h.url)+'" target="_blank">原文全文 ↗</a>' : '';
     var d = dictFind(q);
-    var gloss = d ? '<div class="gloss"><b>'+esc(q)+'</b>（苏州话）＝ '+esc(d.def)+'　<span class="dipa">'+esc(d.ipa)+'</span> <span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\')">🔊</span></div>' : '';
+    var gloss = d ? '<div class="gloss"><b>'+esc(q)+'</b>（苏州话）＝ '+esc(d.def)+'　<span class="dipa">'+esc(d.ipa)+'</span> <span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\',\''+esc(d.w)+'\')">🔊</span></div>' : '';
     return '<div class="hit"><div class="kwic">'+h.html+'</div>'+gloss+'<div class="src">出处：'+esc(h.src)+link+' · <a onclick="var f=this.parentNode.nextSibling;f.style.display=(f.style.display===\'none\'?\'block\':\'none\')" style="cursor:pointer;color:#3f6a5a;">展开本段（苏州话词已标普通话）</a></div><div class="full" style="display:none">'+markDictWords(h.full)+'</div></div>';
   }).join('') || '<div class="hit"><div class="kwic">未命中，换一个词试试。</div></div>';
 }
@@ -328,7 +328,7 @@ function renderDICT(){
     return true;
   });
   document.getElementById('dictList').innerHTML = list.map(function(d){
-    return '<div class="ditem"><span class="dw">'+esc(d.w)+'</span><span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\')">🔊</span><span class="dipa">'+esc(d.ipa)+'</span><span class="dcat">'+esc(d.cat)+'</span><div class="ddef">'+esc(d.def)+'</div></div>';
+    return '<div class="ditem"><span class="dw">'+esc(d.w)+'</span><span class="dspk" onclick="speakWord(\''+esc(d.ipa)+'\',\''+esc(d.w)+'\')">🔊</span><span class="dipa">'+esc(d.ipa)+'</span><span class="dcat">'+esc(d.cat)+'</span><div class="ddef">'+esc(d.def)+'</div></div>';
   }).join('') || '<div class="hint">未找到，换个词试试。</div>';
 }
 function filterDICT(){ dcatSel=''; renderDICT(); }
@@ -348,7 +348,9 @@ function ipaToParts(ipa){
   });
   return parts;
 }
-function speakWord(ipa){
+var AUDIO_MAP={'结棍':'audio/fayinku/词条_结棍_教学念白.mp3'};
+function speakWord(ipa, w){
+  if(w && AUDIO_MAP[w]){ new Audio(AUDIO_MAP[w]).play(); return; }
   var parts = ipaToParts(ipa);
   if(!parts.length) return;
   ensureMeSpeak(function(){ meSpeak.speakMultipart(parts, {speed:140, variant:'f2'}); });
